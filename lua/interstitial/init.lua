@@ -43,7 +43,7 @@ local function init_state(opts)
 	if state then
 		return state
 	end
-	local path = (opts and opts.path) or default_opts.path
+	local path = (opts and opts.path) or M.path
 	state = { path = path }
 	if write_state(state) then
 		return state
@@ -58,13 +58,12 @@ function M.append()
 			return
 		end
 	end
-
+	-- headers
 	local date_str = os.date("%Y-%m-%d")
 	local time_str = os.date("%H:%M:%S")
 	local filename = date_str .. ".md"
 	local filepath = vim.fs.joinpath(M.path, filename)
 	local exists = vim.fn.filereadable(filepath) == 1
-
 	-- create new
 	if not exists then
 		local file = io.open(filepath, "w")
@@ -77,26 +76,26 @@ function M.append()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
 	-- always append whether created or existing
-	local file = io.open(filepath, "a")
+	local file = io.open(filename, "r")
 	if not file then
-		vim.notify("Failed to append to note: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
+		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
 		return
 	end
-	file:write("\n\n## " .. time_str .. "\n")
+	local content = file:read(1) -- Read just 1 character to check if empty
+	file:close()
+	if content == nil then
+		vim.notify("Failed to append note, empty: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
+		return
+	end
+	file = io.open(filename, "a")
+	if not file then
+		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
+		return
+	end
+	file:write("\n\n##" .. time_str)
 	file:close()
 	vim.cmd("edit " .. filepath)
-	vim.cmd("norm G")
-end
-
-function M.set_notes_base_path(path)
-	local expanded_path = vim.fn.expand(path)
-	local state = { path = path }
-	if write_state(state) then
-		M.path = expanded_path
-		vim.notify("Updated notes base path to: " .. expanded_path, vim.log.levels.INFO, { title = "Interstitial" })
-		return true
-	end
-	return false
+	vim.cmd("norm Go")
 end
 
 function M.setup(opts)
