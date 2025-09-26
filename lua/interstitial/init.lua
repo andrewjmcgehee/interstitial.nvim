@@ -73,16 +73,15 @@ function M.append()
 		file:write("# " .. date_str .. "\n")
 		file:close()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
-	-- append to existing
-	else
-		local file = io.open(filepath, "a")
-		if not file then
-			vim.notify("Failed to append to note: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
-			return
-		end
-		file:write("\n\n## " .. time_str .. "\n")
-		file:close()
 	end
+	-- always append whether created or existing
+	local file = io.open(filepath, "a")
+	if not file then
+		vim.notify("Failed to append to note: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
+		return
+	end
+	file:write("\n\n## " .. time_str .. "\n")
+	file:close()
 	vim.cmd("edit " .. filepath)
 end
 
