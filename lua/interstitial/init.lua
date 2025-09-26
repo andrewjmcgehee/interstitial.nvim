@@ -71,7 +71,7 @@ function M.append()
 			vim.notify("Failed to create note: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
 			return
 		end
-		file:write("# " .. date_str)
+		file:write("# " .. date_str .. "\n")
 		file:close()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
