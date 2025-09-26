@@ -84,7 +84,7 @@ function M.append()
 	file:write("\n## " .. time_str .. "\n")
 	file:close()
 	vim.cmd("edit " .. filepath)
-	vim.cmd("norm GA")
+	vim.cmd("norm G")
 end
 
 function M.setup(opts)
