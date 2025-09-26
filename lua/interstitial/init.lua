@@ -93,6 +93,7 @@ function M.setup(opts)
 		nargs = 0,
 		desc = "Open or create a date-stamped markdown file for interstitial notes.",
 	})
+	vim.keymap.set("n", "<leader>n", ":Interstitial<cr>", { desc = "Notes" })
 end
 
 return M
