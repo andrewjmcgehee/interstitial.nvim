@@ -83,6 +83,7 @@ function M.append()
 	file:write("\n\n## " .. time_str .. "\n")
 	file:close()
 	vim.cmd("edit " .. filepath)
+	vim.cmd("norm G")
 end
 
 function M.set_notes_base_path(path)
