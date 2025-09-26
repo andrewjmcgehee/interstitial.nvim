@@ -77,11 +77,11 @@ function M.append()
 	end
 	-- always append time str but do so via buffer commands so changes are only saved on write
 	vim.cmd("edit " .. filepath)
-	vim.cmd("norm G")
-	vim.cmd("norm o")
-	vim.cmd("norm o## " .. time_str)
-	vim.cmd("norm o")
-	vim.cmd("norm o")
+	vim.cmd("silent! norm G")
+	vim.cmd("silent! norm o")
+	vim.cmd("silent! norm o## " .. time_str)
+	vim.cmd("silent! norm o")
+	vim.cmd("silent! norm o")
 end
 
 function M.setup(opts)
