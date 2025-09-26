@@ -75,17 +75,12 @@ function M.append()
 		file:close()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
-	-- always append whether created or existing
-	local file = io.open(filepath, "a+")
-	if not file then
-		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
-		return
-	end
-	file:write("\n## " .. time_str .. "\n")
-	file:close()
+	-- always append time str but do so via buffer commands so changes are only saved on write
 	vim.cmd("edit " .. filepath)
 	vim.cmd("norm G")
-	vim.cmd("norm o")
+	vim.cmd("norm o")
+	vim.cmd("norm o## " .. time_str)
+	vim.cmd("norm o")
 	vim.cmd("norm o")
 end
 
