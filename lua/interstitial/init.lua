@@ -61,8 +61,8 @@ function M.append()
 	-- headers
 	local date_str = os.date("%Y-%m-%d")
 	local time_str = os.date("%H:%M:%S")
-	local filename = date_str .. ".md"
-	local filepath = vim.fs.joinpath(M.path, filename)
+	local date_filename = date_str .. ".md"
+	local filepath = vim.fs.joinpath(M.path, date_filename)
 	local exists = vim.fn.filereadable(filepath) == 1
 	-- create new
 	if not exists then
@@ -76,7 +76,7 @@ function M.append()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
 	-- always append whether created or existing
-	local file = io.open(filename, "a")
+	local file = io.open(filepath, "a+")
 	if not file then
 		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
 		return
