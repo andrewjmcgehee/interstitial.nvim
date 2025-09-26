@@ -1,3 +1,5 @@
+-- TODO: add logic to make sure that h2 headings are added exactly 2 new lines away from the last non-empty line of text
+
 local M = {
 	path = os.getenv("HOME") .. "/Notes",
 }
