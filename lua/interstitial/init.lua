@@ -71,23 +71,12 @@ function M.append()
 			vim.notify("Failed to create note: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
 			return
 		end
-		file:write("# " .. date_str .. "\n")
+		file:write("# " .. date_str)
 		file:close()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
 	-- always append whether created or existing
-	local file = io.open(filename, "r")
-	if not file then
-		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
-		return
-	end
-	local content = file:read(1) -- Read just 1 character to check if empty
-	file:close()
-	if content == nil then
-		vim.notify("Failed to append note, empty: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
-		return
-	end
-	file = io.open(filename, "a")
+	local file = io.open(filename, "a")
 	if not file then
 		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
 		return
