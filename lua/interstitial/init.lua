@@ -81,10 +81,12 @@ function M.append()
 		vim.notify("Failed to open note for append: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
 		return
 	end
-	file:write("## " .. time_str .. "\n\n")
+	file:write("## " .. time_str .. "\n")
 	file:close()
 	vim.cmd("edit " .. filepath)
 	vim.cmd("norm G")
+	vim.cmd("norm o")
+	vim.cmd("norm o")
 end
 
 function M.setup(opts)
