@@ -71,7 +71,6 @@ function M.append()
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
 	-- always add h2 whether file exists or not
-	vim.cmd("edit " .. filepath)
 	vim.cmd(vim.api.nvim_replace_termcodes("silent! norm Go<esc>o## " .. time_str .. "<esc>o<esc>o", true, true, true))
 end
 
