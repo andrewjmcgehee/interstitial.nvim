@@ -64,18 +64,13 @@ function M.append()
 	local date_filename = date_str .. ".md"
 	local filepath = vim.fs.joinpath(M.path, date_filename)
 	local exists = vim.fn.filereadable(filepath) == 1
-	-- create new
+	vim.cmd("edit " .. filepath)
 	if not exists then
-		local file = io.open(filepath, "w")
-		if not file then
-			vim.notify("Failed to create note: " .. filepath, vim.log.levels.ERROR, { title = "Interstitial" })
-			return
-		end
-		file:write("# " .. date_str .. "\n")
-		file:close()
+		-- add h1
+		vim.cmd(vim.api.nvim_replace_termcodes("silent! norm i# " .. date_str .. "<esc>", true, true, true))
 		vim.notify("Created new note: " .. filepath, vim.log.levels.INFO, { title = "Interstitial" })
 	end
-	-- always append time str but do so via buffer commands so changes are only saved on write
+	-- always add h2 whether file exists or not
 	vim.cmd("edit " .. filepath)
 	vim.cmd(vim.api.nvim_replace_termcodes("silent! norm Go<esc>o## " .. time_str .. "<esc>o<esc>o", true, true, true))
 end
